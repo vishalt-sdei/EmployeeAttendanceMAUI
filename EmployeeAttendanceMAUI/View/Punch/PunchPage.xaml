@@ -1,0 +1,789 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Page for Punch functionality -->
+<ContentPage
+    x:Class="PayPointHR.Views.Punch.PunchPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:fontawesome="clr-namespace:PayPointHR.Helper"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    xmlns:sensors="clr-namespace:Microsoft.Maui.Devices.Sensors;assembly=Microsoft.Maui.Essentials"
+    Title="Punch"
+    BackgroundColor="#F5F5F5">
+    <!--This code sets up a ScrollView with padding-->
+    <ScrollView Padding="23,20,23,20" VerticalScrollBarVisibility="Never">
+        <Grid ColumnSpacing="10" RowSpacing="0">
+            <!-- Defines the layout of rows within a Grid container. Each RowDefinition specifies the height of a row. -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="154" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="36" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="74" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="74" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <!--This defines the column structure for a Grid layout.-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Button with FontAwesome icon, black border, transparent background, rounded corners, 50x50 size, displaying Account icon, positioned at the start of a grid. -->
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="0"
+                BackgroundColor="Transparent"
+                BorderColor="Black"
+                BorderWidth="2"
+                CornerRadius="25"
+                FontFamily="FontAwesome"
+                FontSize="20"
+                HeightRequest="50"
+                HorizontalOptions="Start"
+                Text="{x:Static fontawesome:AppFlatIcons.Account}"
+                TextColor="Black"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+            <!-- StackLayout containing employee name and address.
+  - Employee name displayed in a Label.
+  - Address displayed in a horizontal StackLayout with an icon and Label.-->
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="1"
+                Spacing="5"
+                VerticalOptions="CenterAndExpand">
+                <Label
+                    FontSize="18"
+                    HorizontalTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MaxLines="1"
+                    Text="{Binding EmployeeProfile.Name}"
+                    TextColor="Black" />
+                <StackLayout Orientation="Horizontal" Spacing="5">
+                    <Label
+                        FontFamily="FontAwesome"
+                        FontSize="15"
+                        HorizontalTextAlignment="Start"
+                        Text="{x:Static fontawesome:AppFlatIcons.MapMarker}"
+                        TextColor="#D74215" />
+
+                    <Label
+                        x:Name="lblAddress"
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        LineBreakMode="TailTruncation"
+                        MaxLines="1"
+                        TextColor="#5A5A5A" />
+                </StackLayout>
+            </StackLayout>
+            <!-- Displays a map within a frame with specified properties.
+    The map shows the user's location and is of street type.-->
+            <Frame
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Padding="0"
+                BackgroundColor="Transparent"
+                CornerRadius="17"
+                HasShadow="False"
+                IsClippedToBounds="True">
+                <maps:Map
+                    x:Name="map"
+                    IsShowingUser="True"
+                    MapType="Street" />
+                <!--<maps:Map
+                    x:Name="map"
+                    IsShowingUser="True"
+                    IsZoomEnabled="True"
+                    ItemsSource="{Binding PositionPins}"
+                    MapType="Street">
+                    <maps:Map.ItemTemplate>
+                        <DataTemplate>
+                            <maps:Pin
+                                Address="{Binding Description}"
+                                Label="{Binding Label}"
+                                Location="{Binding Location}" />
+                        </DataTemplate>
+                    </maps:Map.ItemTemplate>
+                </maps:Map>-->
+            </Frame>
+
+            <Label
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                FontSize="16"
+                HorizontalTextAlignment="Start"
+                Text="You are in office Dora Branch"
+                TextColor="#707070" />
+
+
+            <!-- Grid layout for displaying location details -->
+            <!-- Close button -->
+            <!-- Check button -->
+            <!-- Stack layout for location labels -->
+            <!-- Label for 'Location :' -->
+            <!-- Label for unidentified location -->
+            <!-- Label for user's current location -->
+
+            <Grid
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Frame
+                    x:Name="frameClose"
+                    Grid.Column="0"
+                    Padding="0"
+                    BackgroundColor="#D74215"
+                    BorderColor="Transparent"
+                    CornerRadius="18"
+                    HasShadow="False"
+                    HeightRequest="36"
+                    HorizontalOptions="CenterAndExpand"
+                    IsClippedToBounds="True"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="36">
+                    <Label
+                        FontFamily="FontAwesome"
+                        FontSize="13"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{x:Static fontawesome:AppFlatIcons.Close}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+                </Frame>
+
+                <Frame
+                    x:Name="frameCheck"
+                    Grid.Column="0"
+                    Padding="0"
+                    BackgroundColor="#579D01"
+                    BorderColor="Transparent"
+                    CornerRadius="18"
+                    HasShadow="False"
+                    HeightRequest="36"
+                    HorizontalOptions="CenterAndExpand"
+                    IsClippedToBounds="True"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="36">
+                    <Label
+                        FontAttributes="Bold"
+                        FontFamily="FontAwesome"
+                        FontSize="15"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{x:Static fontawesome:AppFlatIcons.Check}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+                </Frame>
+
+                <StackLayout
+                    Grid.Column="1"
+                    Spacing="2"
+                    VerticalOptions="CenterAndExpand">
+                    <Label
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        Text="Location :"
+                        TextColor="#5A5A5A" />
+
+                    <Label
+                        x:Name="lblUnidentifiedLocation"
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        IsVisible="False"
+                        Text="You are in unidentified location"
+                        TextColor="#D74215" />
+
+                    <Label
+                        x:Name="lblUserCurrentLocation"
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        IsVisible="False"
+                        TextColor="#5A5A5A" />
+                </StackLayout>
+            </Grid>
+
+            <!--Creates a grid layout with two columns and one row.-->
+            <Grid
+                Grid.Row="8"
+                Grid.ColumnSpan="2"
+                ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!--Creates a grid layout with two columns and one row.-->
+                <Frame
+                    x:Name="frameWifi"
+                    Grid.Column="0"
+                    Padding="0"
+                    BackgroundColor="#D74215"
+                    BorderColor="Transparent"
+                    CornerRadius="18"
+                    HasShadow="False"
+                    HeightRequest="36"
+                    HorizontalOptions="CenterAndExpand"
+                    IsClippedToBounds="True"
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="36">
+                    <!-- Displays wifi icon using FontAwesome font. -->
+                    <Label
+                        FontFamily="FontAwesome"
+                        FontSize="13"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="{x:Static fontawesome:AppFlatIcons.Wifi}"
+                        TextColor="White"
+                        VerticalOptions="CenterAndExpand" />
+                </Frame>
+
+                <!--Information displayed in two labels with specified font sizes and colors.-->
+                <StackLayout
+                    Grid.Column="1"
+                    Spacing="2"
+                    VerticalOptions="CenterAndExpand">
+                    <!-- Label for 'WIFI IP :' text with smaller font size and gray color. -->
+                    <Label
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        Text="WIFI IP :"
+                        TextColor="#5A5A5A" />
+                    <!-- Label for displaying actual IP address with smaller font size and orange color. -->
+                    <Label
+                        x:Name="Iplabel"
+                        FontSize="10"
+                        HorizontalTextAlignment="Start"
+                        TextColor="#D74215" />
+                </StackLayout>
+            </Grid>
+            <!--This XML defines a frame containing a grid with three columns. 
+    The first column holds a button icon, the second column contains two labels, 
+    and the third column holds a clickable frame with an icon and text.-->
+
+            <Frame
+                Grid.Row="10"
+                Grid.ColumnSpan="2"
+                Padding="0"
+                BackgroundColor="White"
+                BorderColor="White"
+                CornerRadius="15"
+                HasShadow="False"
+                IsClippedToBounds="True">
+                <Grid
+                    Padding="10,0,10,0"
+                    ColumnSpacing="10"
+                    HeightRequest="50"
+                    VerticalOptions="CenterAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="102" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Padding="0"
+                        BackgroundColor="#D74215"
+                        CornerRadius="25"
+                        FontFamily="FontAwesome"
+                        FontSize="40"
+                        Text="{x:Static fontawesome:AppFlatIcons.Clock}"
+                        TextColor="White" />
+
+                    <StackLayout
+                        Grid.Column="1"
+                        Spacing="4"
+                        VerticalOptions="CenterAndExpand">
+
+                        <Label
+                            FontSize="10"
+                            HorizontalTextAlignment="Start"
+                            Text="Monday"
+                            TextColor="#5A5A5A" />
+
+                        <Label
+                            FontSize="10"
+                            HorizontalTextAlignment="Start"
+                            Text="20 September,2023"
+                            TextColor="#5A5A5A" />
+                    </StackLayout>
+
+                    <Frame
+                        Grid.Column="2"
+                        Padding="0"
+                        BackgroundColor="#D74215"
+                        BorderColor="#D74215"
+                        CornerRadius="5"
+                        HasShadow="False"
+                        HeightRequest="34"
+                        IsClippedToBounds="True"
+                        VerticalOptions="CenterAndExpand">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnPunchTapped" />
+                        </Frame.GestureRecognizers>
+                        <StackLayout
+                            HorizontalOptions="CenterAndExpand"
+                            Orientation="Horizontal"
+                            Spacing="5"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnPunchTapped" />
+                            </StackLayout.GestureRecognizers>
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="12"
+                                Text="{x:Static fontawesome:AppFlatIcons.Clock}"
+                                TextColor="White"
+                                VerticalTextAlignment="Center">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPunchTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+
+                            <Label
+                                FontSize="12"
+                                Text="Punch"
+                                TextColor="White">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnPunchTapped" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </Frame>
+            <!--This code creates a UI layout with a white box containing an editor for notes and an "Attach" button.-->
+            <Frame
+                Grid.Row="12"
+                Grid.ColumnSpan="2"
+                Padding="0"
+                BackgroundColor="White"
+                BorderColor="White"
+                CornerRadius="15"
+                HasShadow="False"
+                IsClippedToBounds="True">
+                <Grid
+                    Padding="10,0,10,0"
+                    ColumnSpacing="10"
+                    VerticalOptions="CenterAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Editor
+                        Grid.Row="0"
+                        FontSize="11"
+                        HorizontalTextAlignment="Start"
+                        Placeholder="Write a note..."
+                        TextColor="#707070"
+                        VerticalTextAlignment="Start" />
+
+                    <Frame
+                        Grid.Column="2"
+                        Padding="5"
+                        BackgroundColor="#FFE6DF"
+                        BorderColor="#FFE6DF"
+                        CornerRadius="4"
+                        HasShadow="False"
+                        HeightRequest="25"
+                        HorizontalOptions="EndAndExpand"
+                        IsClippedToBounds="True"
+                        VerticalOptions="EndAndExpand">
+                        <StackLayout
+                            HorizontalOptions="CenterAndExpand"
+                            Orientation="Horizontal"
+                            Spacing="5"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="12"
+                                Text="{x:Static fontawesome:AppFlatIcons.Paperclip}"
+                                TextColor="#D74215"
+                                VerticalTextAlignment="Center" />
+
+                            <Label
+                                FontSize="10"
+                                Text="Attach"
+                                TextColor="#D74215" />
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+            </Frame>
+            <!--This XAML code defines a layout for displaying schedule details in a Xamarin.Forms application. 
+It consists of a Frame containing a Grid with multiple rows and columns.
+The first row displays labels for 'Schedule' and 'Clocks'.
+The second row shows the duration of the schedule.
+The subsequent rows display check-in and check-out times along with their locations.
+Each row also includes an icon button for additional actions.-->
+
+            <Frame
+                Grid.Row="14"
+                Grid.ColumnSpan="2"
+                Padding="15"
+                BackgroundColor="White"
+                BorderColor="White"
+                CornerRadius="15"
+                HasShadow="False"
+                IsClippedToBounds="True">
+                <Grid ColumnSpacing="0" RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="68" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Spacing="5">
+                        <Label
+                            FontSize="14"
+                            HorizontalTextAlignment="Start"
+                            Text="Schedule"
+                            TextColor="#101317"
+                            VerticalTextAlignment="Start" />
+
+                        <Label
+                            FontSize="14"
+                            HorizontalTextAlignment="Start"
+                            Text="Clocks"
+                            TextColor="#101317"
+                            VerticalTextAlignment="End" />
+                    </StackLayout>
+
+                    <BoxView
+                        Grid.Column="1"
+                        BackgroundColor="#F4FBFB"
+                        CornerRadius="8"
+                        HeightRequest="28"
+                        VerticalOptions="CenterAndExpand" />
+
+                    <Label
+                        Grid.Column="1"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        Text="8 Hours"
+                        TextColor="#30BEB6"
+                        VerticalTextAlignment="Center" />
+
+                    <Grid
+                        Grid.Row="2"
+                        Grid.ColumnSpan="2"
+                        ColumnSpacing="20"
+                        RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="50" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.RowSpan="3"
+                            Spacing="0"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static fontawesome:AppFlatIcons.ArrowDownCircle}"
+                                TextColor="#D74215"
+                                VerticalTextAlignment="Center" />
+
+                            <BoxView
+                                BackgroundColor="#D74215"
+                                HeightRequest="40"
+                                HorizontalOptions="CenterAndExpand"
+                                WidthRequest="1" />
+
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static fontawesome:AppFlatIcons.ArrowUpCircle}"
+                                TextColor="#D74215"
+                                VerticalTextAlignment="Center" />
+
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Spacing="3"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                VerticalOptions="CenterAndExpand">
+                                <Label
+                                    FontSize="18"
+                                    HorizontalTextAlignment="Start"
+                                    Text="08:00 am"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Checked In"
+                                    TextColor="#707070"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                <Label
+                                    FontFamily="FontAwesome"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{x:Static fontawesome:AppFlatIcons.MapMarker}"
+                                    TextColor="#D74215" />
+
+                                <Label
+                                    FontSize="8"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Rawalpindi, Pakistan"
+                                    TextColor="#5A5A5A" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            BorderWidth="2"
+                            CornerRadius="15"
+                            FontFamily="FontAwesome"
+                            FontSize="15"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Text="{x:Static fontawesome:AppFlatIcons.Account}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            WidthRequest="30" />
+
+                        <StackLayout
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Spacing="3"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                VerticalOptions="CenterAndExpand">
+                                <Label
+                                    FontSize="18"
+                                    HorizontalTextAlignment="Start"
+                                    Text="10:00 pm"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Checked Out"
+                                    TextColor="#707070"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                <Label
+                                    FontFamily="FontAwesome"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{x:Static fontawesome:AppFlatIcons.MapMarker}"
+                                    TextColor="#D74215" />
+
+                                <Label
+                                    FontSize="8"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Rawalpindi, Pakistan"
+                                    TextColor="#5A5A5A" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Button
+                            Grid.Row="2"
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            BorderWidth="2"
+                            CornerRadius="15"
+                            FontFamily="FontAwesome"
+                            FontSize="15"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Text="{x:Static fontawesome:AppFlatIcons.Account}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            WidthRequest="30" />
+
+                        <StackLayout
+                            Grid.Row="4"
+                            Grid.RowSpan="3"
+                            Spacing="0"
+                            VerticalOptions="CenterAndExpand">
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static fontawesome:AppFlatIcons.ArrowDownCircle}"
+                                TextColor="#D74215"
+                                VerticalTextAlignment="Center" />
+
+                            <BoxView
+                                BackgroundColor="#D74215"
+                                HeightRequest="40"
+                                HorizontalOptions="CenterAndExpand"
+                                WidthRequest="1" />
+
+                            <Label
+                                FontFamily="FontAwesome"
+                                FontSize="15"
+                                HorizontalTextAlignment="Center"
+                                Text="{x:Static fontawesome:AppFlatIcons.ArrowUpCircle}"
+                                TextColor="#D74215"
+                                VerticalTextAlignment="Center" />
+
+                        </StackLayout>
+
+                        <StackLayout
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Spacing="3"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                VerticalOptions="CenterAndExpand">
+                                <Label
+                                    FontSize="18"
+                                    HorizontalTextAlignment="Start"
+                                    Text="08:00 am"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Checked In"
+                                    TextColor="#707070"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                <Label
+                                    FontFamily="FontAwesome"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{x:Static fontawesome:AppFlatIcons.MapMarker}"
+                                    TextColor="#D74215" />
+
+                                <Label
+                                    FontSize="8"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Rawalpindi, Pakistan"
+                                    TextColor="#5A5A5A" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Button
+                            Grid.Row="4"
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            BorderWidth="2"
+                            CornerRadius="15"
+                            FontFamily="FontAwesome"
+                            FontSize="15"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Text="{x:Static fontawesome:AppFlatIcons.Account}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            WidthRequest="30" />
+
+                        <StackLayout
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            Spacing="3"
+                            VerticalOptions="CenterAndExpand">
+                            <StackLayout
+                                Orientation="Horizontal"
+                                Spacing="10"
+                                VerticalOptions="CenterAndExpand">
+                                <Label
+                                    FontSize="18"
+                                    HorizontalTextAlignment="Start"
+                                    Text="10:00 pm"
+                                    TextColor="Black"
+                                    VerticalTextAlignment="Center" />
+
+                                <Label
+                                    FontSize="10"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Checked Out"
+                                    TextColor="#707070"
+                                    VerticalTextAlignment="Center" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" Spacing="5">
+                                <Label
+                                    FontFamily="FontAwesome"
+                                    FontSize="15"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{x:Static fontawesome:AppFlatIcons.MapMarker}"
+                                    TextColor="#D74215" />
+
+                                <Label
+                                    FontSize="8"
+                                    HorizontalTextAlignment="Start"
+                                    Text="Rawalpindi, Pakistan"
+                                    TextColor="#5A5A5A" />
+                            </StackLayout>
+                        </StackLayout>
+
+                        <Button
+                            Grid.Row="6"
+                            Grid.Column="2"
+                            Padding="0"
+                            BackgroundColor="Transparent"
+                            BorderColor="Black"
+                            BorderWidth="2"
+                            CornerRadius="15"
+                            FontFamily="FontAwesome"
+                            FontSize="15"
+                            HeightRequest="30"
+                            HorizontalOptions="End"
+                            Text="{x:Static fontawesome:AppFlatIcons.Account}"
+                            TextColor="Black"
+                            VerticalOptions="Center"
+                            WidthRequest="30" />
+                    </Grid>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ScrollView>
+</ContentPage>
